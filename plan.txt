@@ -1,0 +1,5 @@
+Video Feed:
+For the local video streaming, we are currently using IP video streaming (mjpeg) apps for both iOS and Android. From Python we are currently able to accept the video feed and show the feed on screen. We have implemented a switch for a grayscale fitler to demonstrate that we can interact with the feed in realtime.
+
+Video Debugging:
+If having difficulty linking to IP stream, first attempt to connect to the IP address of the stream in browser. If that fails, open wireshark and sniff for packets.
