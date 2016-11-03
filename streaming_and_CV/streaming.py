@@ -6,7 +6,7 @@ import numpy as np
 evan_url = 'http://192.168.1.22/live'                   # URL for Evan's video stream
 url = 'http://192.168.1.5:8080/video'                   # video for Harhit's stream
 url_illinois_net = 'http://10.194.9.154:8080/video'     # video for Harshit's Siebel stream
-evan_url_illinois_net = 'http://10.192.224.222/'        # video for Evan's Siebel stream
+evan_url_illinois_net = 'http://10.192.224.222/live'    # video for Evan's Siebel stream
 
 show_grayscale = True
 
@@ -21,6 +21,8 @@ while True:
         # If valid frame
         jpg = bytes[start_idx : end_idx + 2]
         bytes = bytes[end_idx + 2 :]
+
+        print(bytes)    # Show that things are coming in
         img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.IMREAD_COLOR)
 
         if not show_grayscale:
