@@ -23,9 +23,9 @@ while True:
         bytes = bytes[end_idx + 2 :]
 
         print(bytes)    # Show that things are coming in
-        img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.IMREAD_COLOR)
 
         if not show_grayscale:
+            img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.IMREAD_COLOR)
             cv2.imshow('i', img)
         else:
             gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
