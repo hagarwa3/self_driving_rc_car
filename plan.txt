@@ -3,3 +3,11 @@ For the local video streaming, we are currently using IP video streaming (mjpeg)
 
 Video Debugging:
 If having difficulty linking to IP stream, first attempt to connect to the IP address of the stream in browser. If that fails, open wireshark and sniff for packets.
+
+RC Car:
+For the RC car, we plan to acquire an arduino-controlled RC car from an ex-ECE110 student. The rationale behind this is that the cars are arduino controlled, hence easy to interface with for custom controls. These cars also move much more slowly than an actual RC car, which is preferable for development purposes because RC cars can easily reach a speed at which they would be damaged if an accident happens during development.
+
+The car will still be outfitted with a Raspberry Pi with a wifi attachment. The Pi will run a flask server that will run an API endpoint to control the vehicle and the Pi will interface to the arduino to implement controls. The current plan (for simplicity's sake) is to stream mjpeg video from a mobile phone (as we have developed) but we may acquire the camera attachment for the Raspberry Pi and use that instead. The Pi will be powered from a mobile USB charger intended for usage with cell phones.
+
+Training:
+The training will occur durring later weeks. This is better documented by the project pdf (which is slightly out of date). We also intend to create a state in which the car ignores its ability to avoid crashing into things and decides on a trolley problem (identification of objects is obviously necessary).

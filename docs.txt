@@ -1,0 +1,2 @@
+For OpenCV install with Python3:
+https://rivercitylabs.org/up-and-running-with-opencv3-and-python-3-anaconda-edition/
