@@ -1,0 +1,6 @@
+Test Plan:
+
+Deploy IP streaming from either Evan's or Harshit's phone
+set the URL accordingly
+Make sure that streaming works as it is supposed to
+Make sure that streaming works after conversion to black and white / on addition of other features, just as expected
