@@ -18,15 +18,15 @@ class MyTestCase(unittest.TestCase):
         """
         if not local_only:
             conn = controller.ArduinoController(path, port)
-            conn.forward()
-            conn.backward()
+            conn.move_forward()
+            conn.move_backward()
             conn.turn_right()
             conn.turn_left()
             conn.stop()
             conn.turn_left()
             conn.turn_right()
-            conn.backward()
-            conn.forward()
+            conn.move_backward()
+            conn.move_forward()
             conn.stop()
 
             self.assertListEqual(conn.timeseries, ['F', 'B', 'r', 'l', 'S', 'l', 'r', 'B', 'F', 'S'])
