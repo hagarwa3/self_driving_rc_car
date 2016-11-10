@@ -4,7 +4,7 @@
 #define MOTORR_B 11
 
 
-char actionChar = 'F';   // for incoming serial data
+char actionChar = 'S';   // for incoming serial data
 char incomingChar;
 int speed_mult = 28;
 int normalized_speed = 9;

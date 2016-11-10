@@ -64,7 +64,7 @@ class MyTestCase(unittest.TestCase):
 
             expected_out = ['r', 'S', 'L', 'S', 'l', 'S', 'R', 'S']
             expected_out = format_expected_timeseries(expected_out)
-            self.assertlistEqual(conn.timeseries, expected_out)
+            self.assertListEqual(conn.timeseries, expected_out)
 
         else:
             self.assertTrue(True)
