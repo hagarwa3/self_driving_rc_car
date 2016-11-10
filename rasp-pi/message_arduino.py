@@ -3,6 +3,7 @@ import time
 
 
 conn = None
+timeseries = []
 
 
 def initialize():
@@ -12,38 +13,39 @@ def initialize():
     stop()
 
 
-def stop():
-    global conn
-    conn.write(b'S')
+def send_command(cmd, delay=0):
+    global conn, timeseries
+    conn.write(cmd)
+    timeseries.append(conn.read())
+    time.sleep(delay)
 
 
-def fwd():
-    global conn
-    conn.write(b'F')
+def stop(delay=0):
+    send_command(b'S', delay=delay)
 
 
-def back():
-    global conn
-    conn.write(b'B')
+def fwd(delay=0):
+    send_command(b'F', delay=delay)
 
 
-def right():
-    global conn
-    conn.write(b'R')
+def back(delay=0):
+    send_command(b'B', delay=delay)
 
 
-def left():
-    global conn
-    conn.write(b'L')
+def right(delay=0):
+    send_command(b'R', delay=delay)
+
+
+def left(delay=0):
+    send_command(b'L', delay=delay)
 
 
 if __name__ == "__main__":
+    global timeseries
     initialize()
-    fwd()
-    time.sleep(1)
-    stop()
-    time.sleep(1)
-    back()
-    time.sleep(1)
-    stop()
+    fwd(1)
+    stop(1)
+    back(1)
+    stop(1)
 
+    print(timeseries)

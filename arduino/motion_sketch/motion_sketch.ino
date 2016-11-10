@@ -5,6 +5,9 @@
 
 
 char incomingChar = 'F';   // for incoming serial data
+int speed_mult = 28;
+int normalized_speed = 9;
+int total_speed = normalized_speed * speed_mult;
 
 
 void setup() {
@@ -25,28 +28,34 @@ void loop() {
         // read the incoming byte:
         incomingChar = Serial.read();
 
-        if (incomingChar == 'F') {
-            analogWrite(MOTORL_F, 255);
+        if (incomingChar >= '0' and incomingChar <= '9') {
+            normalized_speed = incomingChar - '0'
+            total_speed = normalized_speed * speed_mult;
+        }
+        else if (incomingChar == 'F') {
+            analogWrite(MOTORL_F, total_speed);
             analogWrite(MOTORL_B, 0);
-            analogWrite(MOTORR_F, 255);
+            analogWrite(MOTORR_F, total_speed);
             analogWrite(MOTORR_B, 0);
         }
         else if (incomingChar == 'B') {
             analogWrite(MOTORL_F, 0);
-            analogWrite(MOTORL_B, 255);
+            analogWrite(MOTORL_B, total_speed);
             analogWrite(MOTORR_F, 0);
-            analogWrite(MOTORR_B, 255);
+            analogWrite(MOTORR_B, total_speed);
         }
         else if (incomingChar == 'R') {
-            analogWrite(MOTORL_F, 255);
+            analogWrite(MOTORL_F, total_speed);
             analogWrite(MOTORL_B, 0);
             analogWrite(MOTORR_F, 0);
-            analogWrite(MOTORR_B, 255);
+//            analogWrite(MOTORR_B, total_speed);
+            analogWrite(MOTORR_B, 0);
         }
         else if (incomingChar == 'L') {
             analogWrite(MOTORL_F, 0);
-            analogWrite(MOTORL_B, 255);
-            analogWrite(MOTORR_F, 255);
+//            analogWrite(MOTORL_B, total_speed);
+            analogWrite(MOTORL_B, 0);
+            analogWrite(MOTORR_F, total_speed);
             analogWrite(MOTORR_B, 0);
         }
         else {
@@ -55,7 +64,8 @@ void loop() {
             analogWrite(MOTORR_F, 0);
             analogWrite(MOTORR_B, 0);
         }
-        
+
+        Serial.write(incomingChar);
         // Serial.print("I received: ");
         // Serial.println(incomingChar);
     }
