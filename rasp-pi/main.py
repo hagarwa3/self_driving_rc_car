@@ -1,22 +1,32 @@
 from flask import Flask, request, render_template
 from flask_cors import CORS, cross_origin
-import message_arduino
+import ArduinoController
 import os
 
 app = Flask(__name__)
 CORS(app)
 cors = CORS(app, resources={"/*": {"origins": "*"}})
 
+#This path migth vary. Make sure to update before use
+serialPath = "/dev/serial/by-path/platform-bcm2708_usb-usb-0:1.4:1.0-port0"
+conn = ArduinoController(serialPath)
 
-@app.route('/speed/', methods=['POST'])
+
+@app.route('/speed/', methods=['GET'])
 def set_speed():
     """
     This is an endpoint to set the speed of the raspberry pi from 
     an HTTP post request.
+    speed will be a tag in the request and will be a number in the range 0-9
     """
-    speed = request.args.get('speed')
-    print(speed)
-    return speed
+    try:
+        speed = int(requestFormat(request.args.get('speed')))
+        if speed<0 or speed>9:
+            return "Not a valid speed"
+        conn.set_speed(speed)
+        return speed
+    except:
+        return "Expected number between 0-9"
 
 
 @app.route('/turn', methods=['GET'])
@@ -26,17 +36,20 @@ def set_direction():
     """
     direction = requestFormat(request.args.get('direction'))
     if direction == "left":
-        message_arduino.left()
+        conn.turn_left()
     elif direction == "right":
-        message_arduino.right()
+        conn.turn_right()
     elif direction == "forward":
-        message_arduino.fwd()
+        conn.move_forward()
     elif direction == "reverse":
-        message_arduino.back()
+        conn.move_backward()
     print(direction)
     return direction
 
 def requestFormat(strInput):
+    """
+    formats incoming requests to remove quotation marks
+    """
     strInput = strInput.replace("%22", "")
     strInput = strInput.replace('"', "")
     return strInput
