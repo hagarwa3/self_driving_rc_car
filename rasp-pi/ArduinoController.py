@@ -139,7 +139,7 @@ class ArduinoController:
         """
         if self.print_on_death:
             print("Arduino at", self.path, self.port, "is going out of scope. Stopping car.")
-            
+
         self.stop()
 
         if not self.test_mode:

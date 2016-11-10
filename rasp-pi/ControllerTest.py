@@ -6,7 +6,8 @@ from io import StringIO
 
 path = "/dev/serial/by-path/platform-bcm2708_usb-usb-0:1.4:1.0-port0"
 port = 9600
-local_only = True
+
+local_only = len(sys.argv) > 0 and sys.argv[0] == "test"
 
 
 class MyTestCase(unittest.TestCase):
