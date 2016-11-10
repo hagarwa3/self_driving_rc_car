@@ -1,3 +1,4 @@
 .*
 !/.gitignore
 rasp-pi/test.txt
+.pyc
