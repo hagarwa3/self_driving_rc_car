@@ -44,17 +44,27 @@ void loop() {
             analogWrite(MOTORR_F, 0);
             analogWrite(MOTORR_B, total_speed);
         }
+        else if (incomingChar == 'r') {
+            analogWrite(MOTORL_F, total_speed);
+            analogWrite(MOTORL_B, 0);
+            analogWrite(MOTORR_F, 0);
+            analogWrite(MOTORR_B, 0);
+        }
         else if (incomingChar == 'R') {
             analogWrite(MOTORL_F, total_speed);
             analogWrite(MOTORL_B, 0);
             analogWrite(MOTORR_F, 0);
-//            analogWrite(MOTORR_B, total_speed);
+            analogWrite(MOTORR_B, total_speed);
+        }
+        else if (incomingChar == 'l') {
+            analogWrite(MOTORL_F, 0);
+            analogWrite(MOTORL_B, 0);
+            analogWrite(MOTORR_F, total_speed);
             analogWrite(MOTORR_B, 0);
         }
         else if (incomingChar == 'L') {
             analogWrite(MOTORL_F, 0);
-//            analogWrite(MOTORL_B, total_speed);
-            analogWrite(MOTORL_B, 0);
+            analogWrite(MOTORL_B, total_speed);
             analogWrite(MOTORR_F, total_speed);
             analogWrite(MOTORR_B, 0);
         }

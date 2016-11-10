@@ -6,38 +6,45 @@ conn = None
 timeseries = []
 
 
-def initialize():
-    global conn
-    conn = serial.Serial("/dev/serial/by-path/platform-bcm2708_usb-usb-0:1.4:1.0-port0", 9600)
-    time.sleep(2)
-    stop()
+class ArduinoController():
+
+    def __init__(self, path, port=9600):
+        self.path = path
+        self.port = port
+        self.conn = serial.Serial(path, port)
+        self.timeseries = []
+        self.stop()
+        time.sleep(2)
 
 
-def send_command(cmd, delay=0):
-    global conn, timeseries
-    conn.write(cmd)
-    timeseries.append(conn.read())
-    time.sleep(delay)
+    def send_command(self, cmd, delay = 0):
+        self.conn.write(cmd)
+        self.timeseries.append(conn.read())
+        time.sleep(delay)
 
 
-def stop(delay=0):
-    send_command(b'S', delay=delay)
+    def stop(self, delay=0):
+        self.send_command(b'S', delay=delay)
 
 
-def fwd(delay=0):
-    send_command(b'F', delay=delay)
+    def fwd(self, delay=0):
+        self.send_command(b'F', delay=delay)
 
 
-def back(delay=0):
-    send_command(b'B', delay=delay)
+    def right(self, delay=0):
+        self.send_command(b'r', delay=delay)
 
 
-def right(delay=0):
-    send_command(b'R', delay=delay)
+    def hard_right(self, delay=0):
+        self.send_command(b'R', delay=delay)
 
 
-def left(delay=0):
-    send_command(b'L', delay=delay)
+    def left(self, delay=0):
+        self.send_command(b'l', delay=delay)
+
+
+    def hard_left(self, delay=0):
+        self.send_command(b'L', delay=delay)
 
 
 if __name__ == "__main__":
