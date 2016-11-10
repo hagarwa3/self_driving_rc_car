@@ -46,6 +46,7 @@ def set_direction():
     print(direction)
     return direction
 
+
 def requestFormat(strInput):
     """
     formats incoming requests to remove quotation marks

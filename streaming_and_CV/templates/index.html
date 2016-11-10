@@ -1,10 +1,73 @@
-<html>
-  <head>
-    <title>SELF DRIVING CAR</title>
-  </head>
-  <body>
-    <h1>SELF DRIVING CAR</h1>
-    <h2>Harshit Agarwal (hagarwa3) and Evan Fabry (efabry2)</h2>
-    <img id="bg" src="{{ url_for('video_feed') }}">
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>SELF DRIVING CAR</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="loadFile/css/normalize.css">
+  <link rel="stylesheet" href="loadFile/css/skeleton.css">
+
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+      <div class="row" style="margin-top: 10vh">
+          <h1>Self Driving Arduino Powered Car</h1>
+          <p style="color: #555;">Harshit Agarwal [hagarwa3] and Evan Fabry [efabry2]</p>
+      </div>
+      
+      
+      <div class="row">
+          <div class="twelve columns">
+              <h2 style="margin-top: 3vh;">Live Stream</h2>
+              <p>The goal of this setup is to watch the processed strea and execute commands to the car</p>
+          </div>
+          <div class="six columns" style="margin-bottom: 2vh;"><img id="bg" src="{{ url_for('video_feed') }}"></div>
+          <br>
+          <div class="twelve columns">
+              <h2 style="margin-top: 3vh;">Some Images</h2>
+              <p>Some images and media captured last night</p>
+             
+          </div>
+          <div class="six columns" style="margin-bottom: 2vh;"><img src = "loadFile/media/image1.jpg"></div>
+          <div class="six columns" style="margin-bottom: 2vh;"><img src = "loadFile/media/image2.jpg"></div>
+          <br>
+          <div class="twelve columns">
+              <h2 style="margin-top: 3vh;">Video of Tests Running</h2>
+              <p>Some images and media captured last night</p>
+             
+          </div>
+          <div class="six columns" style="margin-bottom: 2vh;">
+          		<video controls>
+					<source src="loadFile/media/video.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+				</video>
+          </div>
+      </div>
+      
+    </div>
+    
+    
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
 </html>
