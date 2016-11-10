@@ -7,7 +7,7 @@ def processIncoming(url, bytes, stream):
     #we need a while true loop so that images of size larger than 024 bytes can be read in
     while True:
         bytes += stream.read(1024)
-
+        
         #start and end index are determined by how jpeg files are when converted to bytes. Which is why the specific thing in the find
         start_idx = bytes.find(b'\xff\xd8')
         end_idx = bytes.find(b'\xff\xd9')

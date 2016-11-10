@@ -2,7 +2,7 @@ Video Feed:
 For the local video streaming, we are currently using IP video streaming (mjpeg) apps for both iOS and Android. From Python we are currently able to accept the video feed and show the feed on screen. We have implemented a switch for a grayscale fitler to demonstrate that we can interact with the feed in realtime.
 
 Video Debugging:
-If having difficulty linking to IP stream, first attempt to connect to the IP address of the stream in browser. If that fails, open wireshark and sniff for packets.
+If having difficulty linking to IP stream, first attempt to connect to the IP address of the stream in browser. If that fails, open wireshark and sniff for packets. Wireshark is especially useful for finding the port number if not specified by the streaming app as well as further URL endpoints, however looking at HTML source is usually sufficient.
 
 RC Car:
 For the RC car, we plan to acquire an arduino-controlled RC car from an ex-ECE110 student. The rationale behind this is that the cars are arduino controlled, hence easy to interface with for custom controls. These cars also move much more slowly than an actual RC car, which is preferable for development purposes because RC cars can easily reach a speed at which they would be damaged if an accident happens during development.
