@@ -16,7 +16,7 @@ def format_expected_timeseries(series):
     :param series: list of chars/strings
     :return: list of bytechars
     """
-    return map(lambda x: str(x).encode(), series)
+    return [str(x).encode() for x in series]
 
 
 class MyTestCase(unittest.TestCase):
@@ -39,8 +39,9 @@ class MyTestCase(unittest.TestCase):
             conn.move_forward()
             conn.stop()
 
-            expected = ['F', 'B', 'r', 'l', 'S', 'l', 'r', 'B', 'F', 'S']
-            self.assertListEqual(conn.timeseries, )
+            expected_out = ['F', 'B', 'r', 'l', 'S', 'l', 'r', 'B', 'F', 'S']
+            expected_out = format_expected_timeseries(expected_out)
+            self.assertListEqual(conn.timeseries, expected_out)
 
         else:
             self.assertTrue(True)
@@ -61,7 +62,9 @@ class MyTestCase(unittest.TestCase):
             conn.turn_hard_right()
             conn.stop()
 
-            self.assertlistEqual(conn.timeseries, ['r', 'S', 'L', 'S', 'l', 'S', 'R', 'S'])
+            expected_out = ['r', 'S', 'L', 'S', 'l', 'S', 'R', 'S']
+            expected_out = format_expected_timeseries(expected_out)
+            self.assertListEqual(conn.timeseries, expected_out)
 
         else:
             self.assertTrue(True)

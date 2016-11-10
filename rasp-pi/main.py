@@ -9,10 +9,10 @@ cors = CORS(app, resources={"/*": {"origins": "*"}})
 
 #This path migth vary. Make sure to update before use
 serialPath = "/dev/serial/by-path/platform-bcm2708_usb-usb-0:1.4:1.0-port0"
-conn = ArduinoController(serialPath)
+conn = ArduinoController.ArduinoController(serialPath)
 
 
-@app.route('/speed/', methods=['GET'])
+@app.route('/speed', methods=['GET'])
 def set_speed():
     """
     This is an endpoint to set the speed of the raspberry pi from 
@@ -24,7 +24,7 @@ def set_speed():
         if speed<0 or speed>9:
             return "Not a valid speed"
         conn.set_speed(speed)
-        return speed
+        return str(speed)
     except:
         return "Expected number between 0-9"
 
