@@ -16,7 +16,7 @@ def set_speed():
     return speed
 
 
-@app.route('/turn/', defaults={'path': ''}, methods=['GET'])
+@app.route('/turn/', defaults={'path': ''}, methods=['POST'])
 def set_direction():
     """
     This is an endpoint to cause the raspberry pi to turn in some direction. 
