@@ -29,7 +29,7 @@ void loop() {
         incomingChar = Serial.read();
 
         if (incomingChar >= '0' and incomingChar <= '9') {
-            normalized_speed = incomingChar - '0'
+            normalized_speed = incomingChar - '0';
             total_speed = normalized_speed * speed_mult;
         }
         else if (incomingChar == 'F') {
