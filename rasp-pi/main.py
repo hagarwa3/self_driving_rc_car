@@ -12,7 +12,7 @@ serialPath = "/dev/serial/by-path/platform-bcm2708_usb-usb-0:1.4:1.0-port0"
 conn = ArduinoController.ArduinoController(serialPath)
 
 
-@app.route('/speed', methods=['GET'])
+@app.route('/speed', methods=['POST'])
 def set_speed():
     """
     This is an endpoint to set the speed of the raspberry pi from 
@@ -29,7 +29,7 @@ def set_speed():
         return "Expected number between 0-9"
 
 
-@app.route('/turn', methods=['GET'])
+@app.route('/turn', methods=['POST'])
 def set_direction():
     """
     This is an endpoint to cause the raspberry pi to tell the arduino to turn the car in whatever direction

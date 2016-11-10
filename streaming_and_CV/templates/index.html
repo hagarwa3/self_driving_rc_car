@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="loadFile/css/skeleton.css">
 
 
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
 </head>
 <body>
 
@@ -41,6 +43,13 @@
               <p>The goal of this setup is to watch the processed strea and execute commands to the car</p>
           </div>
           <div class="six columns" style="margin-bottom: 2vh;"><img id="bg" src="{{ url_for('video_feed') }}"></div>
+          <div>
+          <button class="buttonleft">LEFT</button>
+          <button class="buttonright">RIGHT</button>
+          <button class="buttonfwd">FORWARDS</button>
+          <button class="buttonback">BACKWARDS</button>
+
+          </div>
           <br>
           <div class="twelve columns">
               <h2 style="margin-top: 3vh;">Some Images</h2>
@@ -66,6 +75,40 @@
     </div>
     
     
+     <script>
+	     $(".buttonleft").click(function(){
+	            var request = $.ajax({
+	                url: 'http://0.0.0.0:9876/turn',
+	                type: 'POST',
+	                data: { direction: "left"},
+	                dataType: "text"
+	            });
+	        });
+	     $(".buttonright").click(function(){
+	            var request = $.ajax({
+	                url: 'http://0.0.0.0:9876/turn',
+	                type: 'POST',
+	                data: { direction: "right"},
+	                dataType: "text"
+	            });
+	        });
+	     $(".buttonfwd").click(function(){
+	            var request = $.ajax({
+	                url: 'http://0.0.0.0:9876/turn',
+	                type: 'POST',
+	                data: { direction: "forward"},
+	                dataType: "text"
+	            });
+	        });
+	     $(".buttonback").click(function(){
+	            var request = $.ajax({
+	                url: 'http://0.0.0.0:9876/turn',
+	                type: 'POST',
+	                data: { direction: "reverse"},
+	                dataType: "text"
+	            });
+	        });
+     </script>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
