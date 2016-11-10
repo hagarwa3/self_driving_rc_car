@@ -4,7 +4,8 @@
 #define MOTORR_B 11
 
 
-char incomingChar = 'F';   // for incoming serial data
+char actionChar = 'F';   // for incoming serial data
+char incomingChar;
 int speed_mult = 28;
 int normalized_speed = 9;
 int total_speed = normalized_speed * speed_mult;
@@ -32,51 +33,54 @@ void loop() {
             normalized_speed = incomingChar - '0';
             total_speed = normalized_speed * speed_mult;
         }
-        else if (incomingChar == 'F') {
-            analogWrite(MOTORL_F, total_speed);
-            analogWrite(MOTORL_B, 0);
-            analogWrite(MOTORR_F, total_speed);
-            analogWrite(MOTORR_B, 0);
-        }
-        else if (incomingChar == 'B') {
-            analogWrite(MOTORL_F, 0);
-            analogWrite(MOTORL_B, total_speed);
-            analogWrite(MOTORR_F, 0);
-            analogWrite(MOTORR_B, total_speed);
-        }
-        else if (incomingChar == 'r') {
-            analogWrite(MOTORL_F, total_speed);
-            analogWrite(MOTORL_B, 0);
-            analogWrite(MOTORR_F, 0);
-            analogWrite(MOTORR_B, 0);
-        }
-        else if (incomingChar == 'R') {
-            analogWrite(MOTORL_F, total_speed);
-            analogWrite(MOTORL_B, 0);
-            analogWrite(MOTORR_F, 0);
-            analogWrite(MOTORR_B, total_speed);
-        }
-        else if (incomingChar == 'l') {
-            analogWrite(MOTORL_F, 0);
-            analogWrite(MOTORL_B, 0);
-            analogWrite(MOTORR_F, total_speed);
-            analogWrite(MOTORR_B, 0);
-        }
-        else if (incomingChar == 'L') {
-            analogWrite(MOTORL_F, 0);
-            analogWrite(MOTORL_B, total_speed);
-            analogWrite(MOTORR_F, total_speed);
-            analogWrite(MOTORR_B, 0);
-        }
         else {
-            analogWrite(MOTORL_F, 0);
-            analogWrite(MOTORL_B, 0);
-            analogWrite(MOTORR_F, 0);
-            analogWrite(MOTORR_B, 0);
+            actionChar = incomingChar;
         }
 
         Serial.write(incomingChar);
-        // Serial.print("I received: ");
-        // Serial.println(incomingChar);
+    }
+
+    
+    if (actionChar == 'F') {
+        analogWrite(MOTORL_F, total_speed);
+        analogWrite(MOTORL_B, 0);
+        analogWrite(MOTORR_F, total_speed);
+        analogWrite(MOTORR_B, 0);
+    }
+    else if (actionChar == 'B') {
+        analogWrite(MOTORL_F, 0);
+        analogWrite(MOTORL_B, total_speed);
+        analogWrite(MOTORR_F, 0);
+        analogWrite(MOTORR_B, total_speed);
+    }
+    else if (actionChar == 'r') {
+        analogWrite(MOTORL_F, total_speed);
+        analogWrite(MOTORL_B, 0);
+        analogWrite(MOTORR_F, 0);
+        analogWrite(MOTORR_B, 0);
+    }
+    else if (actionChar == 'R') {
+        analogWrite(MOTORL_F, total_speed);
+        analogWrite(MOTORL_B, 0);
+        analogWrite(MOTORR_F, 0);
+        analogWrite(MOTORR_B, total_speed);
+    }
+    else if (actionChar == 'l') {
+        analogWrite(MOTORL_F, 0);
+        analogWrite(MOTORL_B, 0);
+        analogWrite(MOTORR_F, total_speed);
+        analogWrite(MOTORR_B, 0);
+    }
+    else if (actionChar == 'L') {
+        analogWrite(MOTORL_F, 0);
+        analogWrite(MOTORL_B, total_speed);
+        analogWrite(MOTORR_F, total_speed);
+        analogWrite(MOTORR_B, 0);
+    }
+    else {
+        analogWrite(MOTORL_F, 0);
+        analogWrite(MOTORL_B, 0);
+        analogWrite(MOTORR_F, 0);
+        analogWrite(MOTORR_B, 0);
     }
 }

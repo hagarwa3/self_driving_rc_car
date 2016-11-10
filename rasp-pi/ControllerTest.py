@@ -6,7 +6,17 @@ from io import StringIO
 
 path = "/dev/serial/by-path/platform-bcm2708_usb-usb-0:1.4:1.0-port0"
 port = 9600
-local_only = True
+
+local_only = len(sys.argv) > 0 and sys.argv[0] == "test"
+
+
+def format_expected_timeseries(series):
+    """
+    Function to map conversion to a bytechar of every element in an expected output array.
+    :param series: list of chars/strings
+    :return: list of bytechars
+    """
+    return map(lambda x: str(x).encode(), series)
 
 
 class MyTestCase(unittest.TestCase):
@@ -18,18 +28,19 @@ class MyTestCase(unittest.TestCase):
         """
         if not local_only:
             conn = controller.ArduinoController(path, port)
-            conn.forward()
-            conn.backward()
+            conn.move_forward()
+            conn.move_backward()
             conn.turn_right()
             conn.turn_left()
             conn.stop()
             conn.turn_left()
             conn.turn_right()
-            conn.backward()
-            conn.forward()
+            conn.move_backward()
+            conn.move_forward()
             conn.stop()
 
-            self.assertListEqual(conn.timeseries, ['F', 'B', 'r', 'l', 'S', 'l', 'r', 'B', 'F', 'S'])
+            expected = ['F', 'B', 'r', 'l', 'S', 'l', 'r', 'B', 'F', 'S']
+            self.assertListEqual(conn.timeseries, )
 
         else:
             self.assertTrue(True)
