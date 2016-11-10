@@ -1,11 +1,14 @@
 from flask import Flask, request, render_template
 from flask_cors import CORS, cross_origin
+import message_arduino
+import os
+
 app = Flask(__name__)
 CORS(app)
 cors = CORS(app, resources={"/*": {"origins": "*"}})
 
 
-@app.route('/speed/', defaults={'path': ''}, methods=['POST'])
+@app.route('/speed/', methods=['POST'])
 def set_speed():
     """
     This is an endpoint to set the speed of the raspberry pi from 
@@ -16,28 +19,28 @@ def set_speed():
     return speed
 
 
-@app.route('/turn/', defaults={'path': ''}, methods=['POST'])
+@app.route('/turn', methods=['GET'])
 def set_direction():
     """
-    This is an endpoint to cause the raspberry pi to turn in some direction. 
-    Exact implementation to be figured out with an actual arduino.
+    This is an endpoint to cause the raspberry pi to tell the arduino to turn the car in whatever direction
     """
-    direction = request.args.get('direction')
-    """
+    direction = requestFormat(request.args.get('direction'))
     if direction == "left":
-        arduino execute left turn
+        message_arduino.left()
     elif direction == "right":
-        arduino execute right turn
+        message_arduino.right()
     elif direction == "forward":
-        arduino move forward
+        message_arduino.fwd()
     elif direction == "reverse":
-        arduino move backwards
-    """
+        message_arduino.back()
     print(direction)
     return direction
 
+def requestFormat(strInput):
+    strInput = strInput.replace("%22", "")
+    strInput = strInput.replace('"', "")
+    return strInput
 
 if __name__ == "__main__":
-    # port = int(os.environ.get('PORT', 5000))
-    # app.run(host='0.0.0.0', port=port, debug = True)
-    app.run(debug = True)
+    port = int(os.environ.get('PORT', 9876))
+    app.run(host='0.0.0.0', port=port, debug = True)
