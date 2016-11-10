@@ -2,7 +2,13 @@ import cv2
 import urllib.request
 import numpy as np
 
-def processIncoming(url, bytes, stream):
+def processIncoming(bytes, stream):
+    """
+    Processes incoming frames from the streaming url
+    :param stream: incoming bytes from URL for the video
+    :param bytes: The data that is being received and sent through
+    :return: processed image to bytes, updated bytes param
+    """
     show_grayscale = True
     #we need a while true loop so that images of size larger than 024 bytes can be read in
     while True:
@@ -21,6 +27,8 @@ def processIncoming(url, bytes, stream):
                 ret, jpeg = cv2.imencode('.jpg', img)
                 return jpeg.tobytes(), bytes
             else:
+                # this is where the processing would actually take place.
+                # current processing is to convert incoming stream to black and white only
                 gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 ret, jpeg = cv2.imencode('.jpg', gray_image)
                 return jpeg.tobytes(), bytes
