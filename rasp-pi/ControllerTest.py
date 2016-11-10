@@ -16,7 +16,7 @@ def format_expected_timeseries(series):
     :param series: list of chars/strings
     :return: list of bytechars
     """
-    return map(lambda x: str(x).encode(), series)
+    return [str(x).encode() for x in series]
 
 
 class MyTestCase(unittest.TestCase):
