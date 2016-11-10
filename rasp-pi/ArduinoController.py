@@ -3,7 +3,6 @@ import time
 
 
 class ArduinoController:
-
     def __init__(self, path, port=9600, print_on_death=False, test_mode=False):
         """
         :param path: str path to file for usb serial connection to Arduino
@@ -24,7 +23,6 @@ class ArduinoController:
             self.print_on_death = print_on_death
             time.sleep(2)
 
-
     def send_command(self, cmd, delay=1, save_cmd=True):
         """
         Sends a command to the Arduino.
@@ -37,9 +35,8 @@ class ArduinoController:
         if not self.test_mode:
             self.conn.write(cmd)
             if save_cmd:
-                self.timeseries.append(conn.read())
+                self.timeseries.append(self.conn.read())
             time.sleep(delay)
-
 
     def stop(self, delay=1, save_cmd=True):
         """
@@ -51,7 +48,6 @@ class ArduinoController:
         self.send_command(b'S', delay=delay, save_cmd=save_cmd)
         self.state = "stop"
 
-
     def move_forward(self, delay=1, save_cmd=True):
         """
         Command to move the Arduino forwards.
@@ -61,7 +57,6 @@ class ArduinoController:
         """
         self.send_command(b'F', delay=delay, save_cmd=save_cmd)
         self.state = "forwards"
-
 
     def move_backward(self, delay=1, save_cmd=True):
         """
@@ -73,7 +68,6 @@ class ArduinoController:
         self.send_command(b'B', delay=delay, save_cmd=save_cmd)
         self.state = "backwards"
 
-
     def turn_right(self, delay=1, save_cmd=True):
         """
         Command to turn the Arduino right.
@@ -83,7 +77,6 @@ class ArduinoController:
         """
         self.send_command(b'r', delay=delay, save_cmd=save_cmd)
         self.state = "right"
-
 
     def turn_hard_right(self, delay=1, save_cmd=True):
         """
@@ -95,7 +88,6 @@ class ArduinoController:
         self.send_command(b'R', delay=delay, save_cmd=save_cmd)
         self.state = "hard right"
 
-
     def turn_left(self, delay=1, save_cmd=True):
         """
         Command to turn the Arduino left.
@@ -105,7 +97,6 @@ class ArduinoController:
         """
         self.send_command(b'l', delay=delay, save_cmd=save_cmd)
         self.state = "left"
-
 
     def turn_hard_left(self, delay=1, save_cmd=True):
         """
@@ -117,7 +108,6 @@ class ArduinoController:
         self.send_command(b'L', delay=delay, save_cmd=save_cmd)
         self.state = "hard left"
 
-
     def set_speed(self, speed, delay=1, save_cmd=True):
         """
         Updates the speed of the car normalized 0 to 9.
@@ -128,7 +118,6 @@ class ArduinoController:
         """
         self.speed = speed
         self.send_command(str(self.speed).encode(), delay=delay, save_cmd=save_cmd)
-
 
     def __del__(self):
         """
@@ -144,7 +133,6 @@ class ArduinoController:
 
         if not self.test_mode:
             self.conn.close()
-
 
 
 if __name__ == "__main__":
