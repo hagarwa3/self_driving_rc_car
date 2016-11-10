@@ -1,2 +1,11 @@
 For OpenCV install with Python3:
 https://rivercitylabs.org/up-and-running-with-opencv3-and-python-3-anaconda-edition/
+
+Arduino API:
+https://www.arduino.cc/en/Reference/HomePage
+
+Python and Arduino:
+http://playground.arduino.cc/Interfacing/Python
+
+PySerial Docs:
+https://pyserial.readthedocs.io/en/latest/pyserial_api.html
