@@ -12,3 +12,6 @@ https://pyserial.readthedocs.io/en/latest/pyserial_api.html
 
 Parameter-free Canny edge detection:
 http://www.pyimagesearch.com/2015/04/06/zero-parameter-automatic-canny-edge-detection-with-python-and-opencv/
+
+Non-blocking keypress:
+http://stackoverflow.com/questions/13207678/whats-the-simplest-way-of-detecting-keyboard-input-in-python-from-the-terminal
