@@ -2,7 +2,7 @@ import cv2
 import urllib.request
 import numpy as np
 
-stream = urllib.request.urlopen('http://192.168.1.10/live')
+stream = urllib.request.urlopen('http://192.168.1.3:8080/video')
 bytes = bytes()
 while True:
     bytes += stream.read(1024)
@@ -15,7 +15,7 @@ while True:
         cv2.imshow('i', i)
         if cv2.waitKey(1) == 27:
             exit(0)
-        break
+        
 
 
 # import cv2
