@@ -20,7 +20,7 @@ def set_speed():
     speed will be a tag in the request and will be a number in the range 0-9
     """
     try:
-        speed = int(requestFormat(request.args.get('speed')))
+        speed = int(request_format(request.form.get('speed')))
         if speed<0 or speed>9:
             return "Not a valid speed"
         conn.set_speed(speed)
@@ -34,9 +34,7 @@ def set_direction():
     """
     This is an endpoint to cause the raspberry pi to tell the arduino to turn the car in whatever direction
     """
-    # print(request.args.get('direction'))
-    print(request, request.args)
-    direction = requestFormat(request.args.get('direction'))
+    direction = request_format(request.form.get('direction'))
     if direction == "left":
         conn.turn_left()
     elif direction == "right":
@@ -49,7 +47,7 @@ def set_direction():
     return direction
 
 
-def requestFormat(strInput):
+def request_format(strInput):
     """
     formats incoming requests to remove quotation marks
     """
