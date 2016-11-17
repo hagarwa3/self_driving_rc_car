@@ -77,32 +77,36 @@
     
      <script>
 	     $(".buttonleft").click(function(){
+	            console.log("rip");
 	            var request = $.ajax({
-	                url: 'http://0.0.0.0:9876/turn',
+	                url: 'http://192.168.1.11:9600/speed',
 	                type: 'POST',
 	                data: { direction: "left"},
 	                dataType: "text"
 	            });
 	        });
 	     $(".buttonright").click(function(){
+	            console.log("rip");
 	            var request = $.ajax({
-	                url: 'http://0.0.0.0:9876/turn',
+	                url: 'http://192.168.1.11:9600/turn',
 	                type: 'POST',
 	                data: { direction: "right"},
 	                dataType: "text"
 	            });
 	        });
 	     $(".buttonfwd").click(function(){
+	            console.log("rip");
 	            var request = $.ajax({
-	                url: 'http://0.0.0.0:9876/turn',
+	                url: 'http://192.168.1.11:9600/turn',
 	                type: 'POST',
 	                data: { direction: "forward"},
 	                dataType: "text"
 	            });
 	        });
 	     $(".buttonback").click(function(){
+	            console.log("rip");
 	            var request = $.ajax({
-	                url: 'http://0.0.0.0:9876/turn',
+	                url: 'http://192.168.1.11:9600/turn',
 	                type: 'POST',
 	                data: { direction: "reverse"},
 	                dataType: "text"
