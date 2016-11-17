@@ -7,9 +7,6 @@ import getch
 class CollectTrainingData(object):
     
     def __init__(self):
-
-
-        # create labels
         self.k = np.zeros((4, 4), 'float')
         for i in range(4):
             self.k[i, i] = 1
@@ -46,7 +43,11 @@ class CollectTrainingData(object):
             frame = 1
             count = 0
             while keep_running:
+                prevImBytes = im_bytes
                 im_bytes += stream.read(1024)
+                if im_bytes == prevImBytes:
+                    print("stream ended")
+                    break
                 
                 # start and end index are determined by how jpeg files are when converted to bytes.
                 # Which is why the specific thing in the find

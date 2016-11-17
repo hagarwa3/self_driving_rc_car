@@ -7,7 +7,7 @@ URL = 'http://192.168.1.3:8080/video'
 urlIllinoisNet = 'http://10.194.9.154:8080/video'
 evanUrlIllinoisNet = 'http://10.192.224.222/live'
 
-stream = urllib.request.urlopen(URL)
+stream = urllib.request.urlopen(evanURL)
 im_bytes = bytes()
 
 saved_frame = 0
@@ -26,7 +26,12 @@ keep_running = True
 frame = 1
 count = 0
 while keep_running:
+    prevImBytes = im_bytes
     im_bytes += stream.read(1024)
+    if im_bytes == prevImBytes:
+        print("stream ended")
+        break
+                
     
     # start and end index are determined by how jpeg files are when converted to bytes.
     # Which is why the specific thing in the find
