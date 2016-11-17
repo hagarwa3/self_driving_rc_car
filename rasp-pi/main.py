@@ -8,7 +8,7 @@ CORS(app)
 cors = CORS(app, resources={"/*": {"origins": "*"}})
 
 #This path migth vary. Make sure to update before use
-serialPath = "/dev/serial/by-path/platform-bcm2708_usb-usb-0:1.4:1.0-port0"
+serialPath = "/dev/serial/by-path/platform-bcm2708_usb-usb-0:1.2:1.0-port0"
 conn = ArduinoController.ArduinoController(serialPath)
 
 
@@ -34,6 +34,8 @@ def set_direction():
     """
     This is an endpoint to cause the raspberry pi to tell the arduino to turn the car in whatever direction
     """
+    # print(request.args.get('direction'))
+    print(request, request.args)
     direction = requestFormat(request.args.get('direction'))
     if direction == "left":
         conn.turn_left()
