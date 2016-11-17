@@ -26,7 +26,7 @@ class CollectTrainingData(object):
         urlIllinoisNet = 'http://10.194.9.154:8080/video'
         evanUrlIllinoisNet = 'http://10.192.224.222/live'
 
-        stream = urllib.request.urlopen(evanURL)
+        stream = urllib.request.urlopen(URL)
         im_bytes = bytes()
 
         saved_frame = 0
@@ -60,12 +60,13 @@ class CollectTrainingData(object):
                     img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                     cv2.imshow('image', img)
+                    if cv2.waitKey(1) == 27:
+                        exit(0)
                     height, width = img.shape
                     # select lower half of the image
                     roi = img[int(height/2):height, :]
                     # save streamed images
                     cv2.imwrite('training_images/frame{:>05}.jpg'.format(frame), img)
-                    
                     
                     
                     # reshape the roi image into one row array
