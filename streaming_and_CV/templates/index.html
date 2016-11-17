@@ -42,14 +42,17 @@
               <h2 style="margin-top: 3vh;">Live Stream</h2>
               <p>The goal of this setup is to watch the processed strea and execute commands to the car</p>
           </div>
-          <div class="six columns" style="margin-bottom: 2vh;"><img id="bg" src="{{ url_for('video_feed') }}"></div>
-          <div>
-          <button class="buttonleft">LEFT</button>
-          <button class="buttonright">RIGHT</button>
-          <button class="buttonfwd">FORWARDS</button>
-          <button class="buttonback">BACKWARDS</button>
-          <button class="buttonstop">STOP</button>
+          <div style="margin-left: 25%; margin-right: 25%; width: 100%;">
+              <div class="six columns" style="margin-bottom: 2vh;"><img id="bg" src="{{ url_for('video_feed') }}"></div>
+              <div style="width: 50%;">
 
+              <button class="buttonleft">LEFT</button>
+              <button class="buttonright">RIGHT</button>
+              <button class="buttonfwd">FORWARDS</button>
+              <button class="buttonback">BACKWARDS</button>
+              <button class="buttonstop" style="width: 100%;">STOP</button>
+
+              </div>
           </div>
           <br>
           <div class="twelve columns">
@@ -59,6 +62,12 @@
           </div>
           <div class="six columns" style="margin-bottom: 2vh;"><img src = "loadFile/media/image1.jpg"></div>
           <div class="six columns" style="margin-bottom: 2vh;"><img src = "loadFile/media/image2.jpg"></div>
+          <div class="six columns" style="margin-bottom: 2vh;"><img src = "loadFile/media/image3.jpg">Fully self-contained car</div>
+          <div class="six columns" style="margin-bottom: 2vh;"><img src = "loadFile/media/image4.jpg">The pi sits on the middle deck
+              and is powered by a battery pack</div>
+          <div class="six columns" style="margin-bottom: 2vh;"><img src = "loadFile/media/image5.jpg">Our track</div>
+          <div class="six columns" style="margin-bottom: 2vh;"><img src = "loadFile/media/image6.jpg">Our track with edge
+              detection</div>
           <br>
           <div class="twelve columns">
               <h2 style="margin-top: 3vh;">Video of Tests Running</h2>
