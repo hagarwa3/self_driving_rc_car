@@ -1,13 +1,9 @@
-__author__ = 'zhengwang'
-
 import numpy as np
 import cv2
 import serial
-import pygame
-from pygame.locals import *
 import socket
 import urllib.request
-
+import getch
 class CollectTrainingData(object):
     
     def __init__(self):
@@ -19,7 +15,6 @@ class CollectTrainingData(object):
             self.k[i, i] = 1
         self.temp_label = np.zeros((1, 4), 'float')
 
-        pygame.init()
         self.collect_image()
 
     def collect_image(self):
@@ -49,6 +44,7 @@ class CollectTrainingData(object):
         keep_running = True
         try:
             frame = 1
+            count = 0
             while keep_running:
                 im_bytes += stream.read(1024)
                 
@@ -63,58 +59,53 @@ class CollectTrainingData(object):
                     im_bytes = im_bytes[end_idx + 2 :]
                     img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                    cv2.imshow('image', img)
                     height, width = img.shape
                     # select lower half of the image
                     roi = img[int(height/2):height, :]
                     # save streamed images
                     cv2.imwrite('training_images/frame{:>05}.jpg'.format(frame), img)
                     
-                    cv2.imshow('image', roi)
+                    
                     
                     # reshape the roi image into one row array
                     temp_array = roi.flatten().astype(np.float32)
-                    print(temp_array.shape)
+                    #print(temp_array.shape)
                     frame += 1
                     total_frame += 1
+                    count+=1
                     # get input from human driver
-                    for event in pygame.event.get():
-                        print("got it")
-                        if event.type == KEYDOWN:
-                            key_input = pygame.key.get_pressed()
+                    if count == 10:
+                        count = 0
+                        c = getch.getch()
+                        if c == 'd':
+                            print("Forward Right")
+                            image_array = np.vstack((image_array, temp_array))
+                            label_array = np.vstack((label_array, self.k[1]))
+                            saved_frame += 1
 
-                            # complex orders
-                            if key_input[pygame.K_UP] and key_input[pygame.K_RIGHT]:
-                                print("Forward Right")
-                                image_array = np.vstack((image_array, temp_array))
-                                label_array = np.vstack((label_array, self.k[1]))
-                                saved_frame += 1
+                        elif c == 'a':
+                            print("Forward Left")
+                            image_array = np.vstack((image_array, temp_array))
+                            label_array = np.vstack((label_array, self.k[0]))
+                            saved_frame += 1
 
-                            elif key_input[pygame.K_UP] and key_input[pygame.K_LEFT]:
-                                print("Forward Left")
-                                image_array = np.vstack((image_array, temp_array))
-                                label_array = np.vstack((label_array, self.k[0]))
-                                saved_frame += 1
+                        elif c == 'w':
+                            print("Forward")
+                            saved_frame += 1
+                            image_array = np.vstack((image_array, temp_array))
+                            label_array = np.vstack((label_array, self.k[2]))
 
-                            elif key_input[pygame.K_UP]:
-                                print("Forward")
-                                saved_frame += 1
-                                image_array = np.vstack((image_array, temp_array))
-                                label_array = np.vstack((label_array, self.k[2]))
+                        elif c == 's':
+                            print("Reverse")
+                            saved_frame += 1
+                            image_array = np.vstack((image_array, temp_array))
+                            label_array = np.vstack((label_array, self.k[3]))
 
-                            elif key_input[pygame.K_DOWN]:
-                                print("Reverse")
-                                saved_frame += 1
-                                image_array = np.vstack((image_array, temp_array))
-                                label_array = np.vstack((label_array, self.k[3]))
-
-                            elif key_input[pygame.K_x] or key_input[pygame.K_q]:
-                                print('exit')
-                                keep_running = False
-                                break
-                                    
-                        elif event.type == pygame.KEYUP:
-                            print("up")
-                            break
+                        elif c== 'x':
+                            print('exit')
+                            keep_running = False
+                                   
 
             # save training images and labels
             train = image_array[1:, :]
@@ -136,5 +127,5 @@ class CollectTrainingData(object):
         except:
             print("rip")
 
-#if __name__ == '__main__':
-CollectTrainingData()
+if __name__ == '__main__':
+    CollectTrainingData()
