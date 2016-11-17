@@ -4,9 +4,11 @@ import urllib.request
 import numpy as np
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 def gen():
 	"""
@@ -20,7 +22,7 @@ def gen():
 	urlIllinoisNet = 'http://10.194.9.154:8080/video'
 	evanUrlIllinoisNet = 'http://10.192.224.222/live'
 
-	stream = urllib.request.urlopen(evanUrlIllinoisNet)
+	stream = urllib.request.urlopen(evanURL)
 	im_bytes = bytes()
 
 	#while loop helps it keep streaming
@@ -29,6 +31,7 @@ def gen():
 		yield (b'--frame\r\n'
 		       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
+
 @app.route('/video_feed')
 def video_feed():
 	"""
@@ -36,9 +39,11 @@ def video_feed():
 	"""
 	return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+
 @app.route("/loadFile/<path:path>", methods=['GET'])
 def loadFile(path):
     return send_file('templates/'+path)
+
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', debug=True, threaded=True)

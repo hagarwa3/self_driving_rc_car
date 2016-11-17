@@ -9,3 +9,6 @@ http://playground.arduino.cc/Interfacing/Python
 
 PySerial Docs:
 https://pyserial.readthedocs.io/en/latest/pyserial_api.html
+
+Parameter-free Canny edge detection:
+http://www.pyimagesearch.com/2015/04/06/zero-parameter-automatic-canny-edge-detection-with-python-and-opencv/
