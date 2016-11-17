@@ -1,5 +1,5 @@
 Testing of the pi driving server will be automated via a "test mode." This will involve adding a third end point to post to the Flask server, which will be launched by the main driver on the other end of the video stream, which will send a known timeseries of instructions. The timeseries of instructions will be saved to disk by the Pi for comparison to the known timeseries sent.
 
-Beyond that, turning will be tested by running a program that makes a 90 degree turn, waits, then turns 180 degrees. This is visually easy to verify the behavior of.
+Fail safetiness of the server will be tested by hooking up the pi to an external monitor, killing the server, and checking that the car stops.
 
-A simulator that translates instructions into estimated car behavior may be created to test other output (especially if a faster RC car is used later).
+Automatic login and starting of the pi server scripts are simple to test by starting the pi and checking if it automatically logs in, connects to the local wifi network, and starts the server.
