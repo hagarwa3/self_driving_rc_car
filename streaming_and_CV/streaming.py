@@ -6,7 +6,7 @@ def draw_line(img, pt0, pt1, color=(255, 0, 0), weight=5):
     cv2.line(img, pt0, pt1, color, 5)
 
 
-def auto_canny(img, sigma=0.5):
+def auto_canny(img, sigma=0.01):
     """
     Applies the Canny detection algorithm with automatic parameter estimation. Modified from:
     http://www.pyimagesearch.com/2015/04/06/zero-parameter-automatic-canny-edge-detection-with-python-and-opencv/
@@ -27,7 +27,7 @@ def auto_canny(img, sigma=0.5):
     return edged
 
 
-def draw_edges(img):
+def draw_edges(img, n_components=-1):
     """
     Accepts an image, draws edges on the image, and returns the edged image.
     :param img: Image to be drawn on
@@ -35,8 +35,13 @@ def draw_edges(img):
     """
     edges = auto_canny(img)
     contours = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[1]
+    contours = sorted(contours, key=cv2.contourArea, reverse=True)
+    if n_components != -1 and type(n_components) == int:
+        contours = contours[:n_components]
+    elif n_components != -1 and type(n_components) == float:
+        contours = contours[:int(len(contours) * n_components)]
     cv2.drawContours(img, contours, -1, (0, 255, 0), 1)
-    return edges
+    return contours
 
 
 def processIncoming(im_bytes, stream):
@@ -69,7 +74,7 @@ def processIncoming(im_bytes, stream):
                 # current processing is to convert incoming stream to black and white only
                 gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 gray_image = cv2.cvtColor(gray_image, cv2.COLOR_GRAY2RGB)
-                draw_edges(gray_image)
+                draw_edges(gray_image, 0.05)
                 ret, jpeg = cv2.imencode('.jpg', gray_image)
                 # draw_line(jpeg, (0, 0), (100, 100))
                 return jpeg.tobytes(), im_bytes
