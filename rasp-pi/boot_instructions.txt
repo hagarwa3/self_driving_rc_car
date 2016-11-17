@@ -1,0 +1,3 @@
+To make the pi run the server script upon boot, add "/bin/bash ./boot_script.sh" to ~/.bashrc.
+
+Instructions for autologin to the pi are ommitted because the correct way to do that appears to periodically change.
