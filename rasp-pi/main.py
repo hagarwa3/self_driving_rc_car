@@ -34,6 +34,7 @@ def set_direction():
     """
     This is an endpoint to cause the raspberry pi to tell the arduino to turn the car in whatever direction
     """
+    print(request.args.get('direction'))
     direction = requestFormat(request.args.get('direction'))
     if direction == "left":
         conn.turn_left()

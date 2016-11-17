@@ -48,6 +48,7 @@
           <button class="buttonright">RIGHT</button>
           <button class="buttonfwd">FORWARDS</button>
           <button class="buttonback">BACKWARDS</button>
+          <button class="buttonstop">STOP</button>
 
           </div>
           <br>
@@ -77,38 +78,71 @@
     
      <script>
 	     $(".buttonleft").click(function(){
-	            console.log("rip");
+	            console.log("turn left");
 	            var request = $.ajax({
-	                url: 'http://192.168.1.11:9600/speed',
+	                url: 'http://192.168.1.11:9876/speed',
+	                type: 'POST',
+	                data: { speed: 9 },
+	                dataType: "text"
+	            });
+	            var request = $.ajax({
+	                url: 'http://192.168.1.11:9876/turn',
 	                type: 'POST',
 	                data: { direction: "left"},
 	                dataType: "text"
 	            });
 	        });
 	     $(".buttonright").click(function(){
-	            console.log("rip");
+	            console.log("turn right");
 	            var request = $.ajax({
-	                url: 'http://192.168.1.11:9600/turn',
+	                url: 'http://192.168.1.11:9876/speed',
+	                type: 'POST',
+	                data: { speed: 9 },
+	                dataType: "text"
+	            });
+	            var request = $.ajax({
+	                url: 'http://192.168.1.11:9876/turn',
 	                type: 'POST',
 	                data: { direction: "right"},
 	                dataType: "text"
 	            });
 	        });
 	     $(".buttonfwd").click(function(){
-	            console.log("rip");
+	            console.log("move forward");
 	            var request = $.ajax({
-	                url: 'http://192.168.1.11:9600/turn',
+	                url: 'http://192.168.1.11:9876/speed',
+	                type: 'POST',
+	                data: { speed: 9 },
+	                dataType: "text"
+	            });
+	            var request = $.ajax({
+	                url: 'http://192.168.1.11:9876/turn',
 	                type: 'POST',
 	                data: { direction: "forward"},
 	                dataType: "text"
 	            });
 	        });
 	     $(".buttonback").click(function(){
-	            console.log("rip");
+	            console.log("move backward");
 	            var request = $.ajax({
-	                url: 'http://192.168.1.11:9600/turn',
+	                url: 'http://192.168.1.11:9876/speed',
+	                type: 'POST',
+	                data: { speed: 9 },
+	                dataType: "text"
+	            });
+	            var request = $.ajax({
+	                url: 'http://192.168.1.11:9876/turn',
 	                type: 'POST',
 	                data: { direction: "reverse"},
+	                dataType: "text"
+	            });
+	        });
+	     $(".buttonstop").click(function(){
+	            console.log("stop");
+	            var request = $.ajax({
+	                url: 'http://192.168.1.11:9876/speed',
+	                type: 'POST',
+	                data: { speed: 0 },
 	                dataType: "text"
 	            });
 	        });

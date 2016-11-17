@@ -1,7 +1,8 @@
 from flask import Flask, render_template, Response, send_file
 import streaming
 import urllib.request
-import numpy as np
+# import numpy as np
+import os
 app = Flask(__name__)
 
 
@@ -46,4 +47,5 @@ def loadFile(path):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, threaded=True)
+    port = int(os.environ.get('PORT', 8008))
+    app.run(host='0.0.0.0', port=port, debug=True, threaded=True)
