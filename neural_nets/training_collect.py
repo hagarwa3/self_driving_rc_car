@@ -23,7 +23,7 @@ class CollectTrainingData(object):
         urlIllinoisNet = 'http://10.194.9.154:8080/video'
         evanUrlIllinoisNet = 'http://10.192.224.222/live'
 
-        stream = urllib.request.urlopen(URL)
+        stream = urllib.request.urlopen(evanURL)
         im_bytes = bytes()
 
         saved_frame = 0
@@ -33,6 +33,7 @@ class CollectTrainingData(object):
         print('Start collecting images...')
         e1 = cv2.getTickCount()
         image_array = np.zeros((1, 86400))
+        #86400 is the image size
         label_array = np.zeros((1, 4), 'float')
 
         # stream video frames one by one
@@ -60,14 +61,15 @@ class CollectTrainingData(object):
                     im_bytes = im_bytes[end_idx + 2 :]
                     img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    cv2.imshow('image', img)
-                    if cv2.waitKey(1) == 27:
-                        exit(0)
                     height, width = img.shape
                     # select lower half of the image
                     roi = img[int(height/2):height, :]
+                    cv2.imshow('image', roi)
+                    if cv2.waitKey(1) == 27:
+                        exit(0)
+                    
                     # save streamed images
-                    cv2.imwrite('training_images/frame{:>05}.jpg'.format(frame), img)
+                    cv2.imwrite('training_images/frame{:>05}.jpg'.format(frame), roi)
                     
                     
                     # reshape the roi image into one row array
@@ -107,6 +109,9 @@ class CollectTrainingData(object):
                         elif c== 'x':
                             print('exit')
                             keep_running = False
+
+                        else:
+                            print("frame won't be trained with")
                                    
 
             # save training images and labels
