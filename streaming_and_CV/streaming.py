@@ -2,12 +2,16 @@ import cv2
 import numpy as np
 import pi_controller
 from sklearn.externals import joblib
+from datetime import datetime as dt
 
 bot_url = "http://192.168.1.11:9876/"
 frame_idx = 0
 direction = 0
 n_reverses = 0
 controller = pi_controller.PiController(bot_url)
+log_model = joblib.load('logistic_regression.pkl')
+convert_to_grayscale = True
+last_img = None
 
 
 def draw_line(img, pt0, pt1, color=(255, 0, 0), weight=5):
@@ -54,7 +58,7 @@ def draw_edges(img, n_components=-1):
 def draw_edges_bw(img, n_components=-1):
     contours = draw_edges(img, n_components)
     img_bw = np.zeros(img.shape)
-    cv2.drawContours(img, contours, -1, 255, 1)
+    cv2.drawContours(img_bw, contours, -1, 255, 1)
     return img_bw
 
 def draw_direction_arrow(img, direction):
@@ -62,10 +66,10 @@ def draw_direction_arrow(img, direction):
     if direction == 0:          # left turn
         cv2.arrowedLine(img, (230, 75), (130, 75), (0, 255, 0), 5, 5)
         # cv2.arrowedLine(gray_image, (230, 125), (130, 25), (0, 255, 0), 5, 5)
-    elif direction == 2:        # right turn
+    elif direction == 1:        # right turn
         cv2.arrowedLine(img, (130, 75), (230, 75), (0, 255, 0), 5, 5)
         # cv2.arrowedLine(gray_image, (130, 125), (230, 25), (0, 255, 0), 5, 5)
-    elif direction == 1:        # forwards
+    elif direction == 2:        # forwards
         cv2.arrowedLine(img, (180, 125), (180, 25), (0, 255, 0), 5, 5)
     elif direction == 3:        # backwards
         cv2.arrowedLine(img, (180, 25), (180, 125), (0, 255, 0), 5, 5)
@@ -73,7 +77,8 @@ def draw_direction_arrow(img, direction):
 
 def navigate(img):
     global direction
-    direction = get_direction_from_image(img)
+    global n_reverses
+    direction, img = get_direction_from_image(img)
 
     if direction == 2:
         controller.forwards()
@@ -88,18 +93,23 @@ def navigate(img):
     if direction != 3:
         n_reverses = 0
 
-    if n_reverses == 5:
-        raise Exception("time to stop")
+    return img
+
+    # if n_reverses == 5:
+    #     raise Exception("time to stop")
 
 def get_direction_from_image(img):
-    img_bw = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    global log_model
+    img_bw = img
+    #img_bw = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    #print(img_bw.shape)
     height, width = img_bw.shape
     img_bw = img_bw[int(height/2):height, :]
     img_bw = cv2.resize(img_bw, (0,0), fx=0.25, fy=0.25)
-    img_bw = draw_edges_bw(img_bw, 0.05).flatten().astype(np.float32)
-    log_model = joblib.load('logistic_regression.pkl')
-    prediction = log_model.predict([img_bw])
-    return prediction[0]
+    img_bw = draw_edges_bw(img_bw, 0.05)
+    img_bw_copy = img_bw.flatten().astype(np.float32)
+    prediction = log_model.predict([img_bw_copy])
+    return prediction[0], img_bw
 
 def processIncoming(im_bytes, stream):
     """
@@ -110,6 +120,8 @@ def processIncoming(im_bytes, stream):
     """
     global direction
     global frame_idx
+    global convert_to_grayscale
+    global last_img
 
     #we need a while true loop so that images of size larger than 1024 bytes can be read in
     while True:
@@ -129,26 +141,29 @@ def processIncoming(im_bytes, stream):
             #update bytes from end of image bytes to the new index so that next image can be read
             im_bytes = im_bytes[end_idx + 2 :]
             img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
-            if not show_grayscale:
+            if not convert_to_grayscale:
                 ret, jpeg = cv2.imencode('.jpg', img)
                 return jpeg.tobytes(), im_bytes
             else:
                 # this is where the processing would actually take place.
                 # current processing is to convert incoming stream to black and white only
                 gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+                img = navigate(gray_image) if frame_idx % 10 == 0 else last_img
+                last_img = img
+
                 gray_image = cv2.cvtColor(gray_image, cv2.COLOR_GRAY2RGB)
                 # draw_edges(gray_image, 0.05)
+                
                 contours = draw_edges(gray_image, 1.0)
                 # cv2.putText(gray_image, "↖️⬆️↗️",
                 #             (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 3)
                 draw_direction_arrow(gray_image, direction)
+
                 ret, jpeg = cv2.imencode('.jpg', gray_image)
+                # ret, jpeg = cv2.imencode('.jpg', img)
                 # ret, jpeg = cv2.imencode('.jpg', contour)
-                # draw_line(jpeg, (0, 0), (100, 100))
-                if frame_idx % 10 == 0:
-                    direction += 1
-                    direction %= 4
-                #     navigate(jpeg.to_bytes)
+
                 frame_idx += 1
                 return jpeg.tobytes(), im_bytes
             if cv2.waitKey(1) == 27:
