@@ -3,3 +3,4 @@
 rasp-pi/test.txt
 .pyc
 *__pycache__
+neural_nets/training_images/
