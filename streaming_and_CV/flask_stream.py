@@ -23,7 +23,7 @@ def gen():
     urlIllinoisNet = 'http://10.194.9.154:8080/video'
     evanUrlIllinoisNet = 'http://10.192.224.222/live'
 
-    stream = urllib.request.urlopen(evanURL)
+    stream = urllib.request.urlopen(URL)
     im_bytes = bytes()
 
     #while loop helps it keep streaming
