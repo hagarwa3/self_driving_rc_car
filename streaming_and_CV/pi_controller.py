@@ -1,8 +1,12 @@
 import requests
+import os
+import time
 
 
 class PiController:
-    def __init__(self, address="http://192.168.1.11:9876/"):
+    def __init__(self, address="http://192.168.1.11:9876"):
+        if address[-1] == "/":
+            address = address[:-1]
         self.address = address
         self.last_direction = None
         self.direction = None
@@ -51,10 +55,16 @@ class PiController:
         self.set_direction("reverse")
 
     def __del__(self):
-        self.stop()
+        os.system("python stop_car.py " + self.address)
 
 
 if __name__ == "__main__":
     conn = PiController()
     print(conn.address)
     conn.forwards()
+    time.sleep(1)
+    conn.stop()
+    time.sleep(1)
+    conn.forwards()
+    time.sleep(1)
+    conn.stop()
