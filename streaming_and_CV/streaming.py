@@ -14,10 +14,6 @@ convert_to_grayscale = True
 last_img = None
 
 
-def draw_line(img, pt0, pt1, color=(255, 0, 0), weight=5):
-    cv2.line(img, pt0, pt1, color, 5)
-
-
 def auto_canny(img, sigma=0.01):
     """
     Applies the Canny detection algorithm with automatic parameter estimation. Modified from:
@@ -56,12 +52,18 @@ def draw_edges(img, n_components=-1):
     return contours
 
 def draw_edges_bw(img, n_components=-1):
+    """
+    Draws edges in black and white.
+    """
     contours = draw_edges(img, n_components)
     img_bw = np.zeros(img.shape)
     cv2.drawContours(img_bw, contours, -1, 255, 1)
     return img_bw
 
 def draw_direction_arrow(img, direction):
+    """
+    Draws a direction arrow on the video stream.
+    """
     # Draw arrow centered at (180, 75)
     if direction == 0:          # left turn
         cv2.arrowedLine(img, (230, 75), (130, 75), (255, 0, 0), 5, 5)
@@ -76,6 +78,10 @@ def draw_direction_arrow(img, direction):
 
 
 def navigate(img):
+    """
+    Takes in an image, gets the direction, and issues a command
+    to drive the car.
+    """
     global direction
     global n_reverses
     direction, img = get_direction_from_image(img)
@@ -99,6 +105,11 @@ def navigate(img):
     #     raise Exception("time to stop")
 
 def get_direction_from_image(img):
+    """
+    Takes an image, converts it to black and white, resizes it to 1/4 of each original
+    dimension (1/16th original size in total), and uses a logistic regression classification 
+    to predict the correct direction.
+    """
     global log_model
     img_bw = img
     #img_bw = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
