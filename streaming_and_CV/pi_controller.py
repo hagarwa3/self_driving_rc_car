@@ -52,12 +52,14 @@ class PiController:
             t.start()
 
     def trim_threads(self):
-        print(len(threading.enumerate()))
+        return
+        print("number of threads running: ", len(threading.enumerate()))
         for t in threading.enumerate()[self.n_threads_max:]:
             t._stop()
 
-    def threader(target, args):
-        if len(threading.enumerate()) < self.n_threads_max or (target == self.stop and last_command[0] != self.stop):
+    def threader(self, target=None, args=None):
+        print("number of threads running: ", len(threading.enumerate()))
+        if (len(threading.enumerate()) < self.n_threads_max or target == self.stop) and target != self.last_command[0]:
             self.last_command = (target, args)
             threading.Thread(target=stoppable, args=[target, args]).start()
 
@@ -70,11 +72,13 @@ class PiController:
     def stop(self):
         t = self.parallelizer(target=self._speed_worker, args=["0"])
         # self.threads.append(t)
-        t.start()
+        if type(t) == threading.Thread:
+            t.start()
 
         t = self.parallelizer(target=self._direction_worker, args=["forward"])
         # self.threads.append(t)
-        t.start()
+        if type(t) == threading.Thread:
+            t.start()
         
         self.trim_threads()
         self.set_direction("stop")
@@ -84,7 +88,8 @@ class PiController:
 
         t = self.parallelizer(target=self._direction_worker, args=["right"])
         # self.threads.append(t)
-        t.start()
+        if type(t) == threading.Thread:
+            t.start()
 
         self.trim_threads()
         self.set_direction("right")
@@ -94,7 +99,8 @@ class PiController:
 
         t = self.parallelizer(target=self._direction_worker, args=["left"])
         # self.threads.append(t)
-        t.start()
+        if type(t) == threading.Thread:
+            t.start()
 
         self.trim_threads()
         self.set_direction("left")
@@ -104,7 +110,8 @@ class PiController:
 
         t = self.parallelizer(target=self._direction_worker, args=["forward"])
         # self.threads.append(t)
-        t.start()
+        if type(t) == threading.Thread:
+            t.start()
 
         self.trim_threads()
         self.set_direction("forward")
@@ -112,9 +119,11 @@ class PiController:
     def forward_right(self):
         self.check_speed()
 
+        print(self.parallelizer)
         t = self.parallelizer(target=self._direction_worker, args=["right"])
         # self.threads.append(t)
-        t.start()
+        if type(t) == threading.Thread:
+            t.start()
 
         self.trim_threads()
         self.set_direction("forward right")
@@ -124,7 +133,8 @@ class PiController:
 
         t = self.parallelizer(target=self._direction_worker, args=["forward left"])
         # self.threads.append(t)
-        t.start()
+        if type(t) == threading.Thread:
+            t.start()
 
         self.trim_threads()
         self.set_direction("forward left")
@@ -134,7 +144,8 @@ class PiController:
 
         t = self.parallelizer(target=self._direction_worker, args=["reverse"])
         # self.threads.append(t)
-        t.start()
+        if type(t) == threading.Thread:
+            t.start()
 
         self.trim_threads()
         self.set_direction("reverse")

@@ -64,15 +64,15 @@ def draw_edges_bw(img, n_components=-1):
 def draw_direction_arrow(img, direction):
     # Draw arrow centered at (180, 75)
     if direction == 0:          # left turn
-        cv2.arrowedLine(img, (230, 75), (130, 75), (0, 255, 0), 5, 5)
+        cv2.arrowedLine(img, (230, 75), (130, 75), (255, 0, 0), 5, 5)
         # cv2.arrowedLine(gray_image, (230, 125), (130, 25), (0, 255, 0), 5, 5)
     elif direction == 1:        # right turn
-        cv2.arrowedLine(img, (130, 75), (230, 75), (0, 255, 0), 5, 5)
+        cv2.arrowedLine(img, (130, 75), (230, 75), (255, 0, 0), 5, 5)
         # cv2.arrowedLine(gray_image, (130, 125), (230, 25), (0, 255, 0), 5, 5)
     elif direction == 2:        # forwards
-        cv2.arrowedLine(img, (180, 125), (180, 25), (0, 255, 0), 5, 5)
+        cv2.arrowedLine(img, (180, 125), (180, 25), (255, 0, 0), 5, 5)
     elif direction == 3:        # backwards
-        cv2.arrowedLine(img, (180, 25), (180, 125), (0, 255, 0), 5, 5)
+        cv2.arrowedLine(img, (180, 25), (180, 125), (255, 0, 0), 5, 5)
 
 
 def navigate(img):
@@ -149,13 +149,14 @@ def processIncoming(im_bytes, stream):
                 # current processing is to convert incoming stream to black and white only
                 gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-                img = navigate(gray_image) if frame_idx % 10 == 0 else last_img
+                # Navigate once per second (once every 30 frames) to avoid too many open TCP connections
+                img = navigate(gray_image) if frame_idx % 30 == 0 else last_img
                 last_img = img
 
-                gray_image = cv2.cvtColor(gray_image, cv2.COLOR_GRAY2RGB)
+                gray_image = cv2.cvtColor(gray_image, cv2.COLOR_GRAY2BGR)
                 # draw_edges(gray_image, 0.05)
                 
-                contours = draw_edges(gray_image, 1.0)
+                contours = draw_edges(gray_image, 0.1)
                 # cv2.putText(gray_image, "↖️⬆️↗️",
                 #             (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 3)
                 draw_direction_arrow(gray_image, direction)
