@@ -39,6 +39,10 @@ def set_direction():
         conn.turn_left()
     elif direction == "right":
         conn.turn_right()
+    elif direction == "forward left":
+        conn.forward_left()
+    elif direction == "forward right":
+        conn.forward_right()
     elif direction == "forward":
         conn.move_forward()
     elif direction == "reverse":

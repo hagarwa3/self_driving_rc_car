@@ -78,6 +78,16 @@ class ArduinoController:
         self.send_command(b'r', delay=delay, save_cmd=save_cmd)
         self.state = "right"
 
+    def forward_right(self, delay=1, save_cmd=True):
+        """
+        Command to make the arduino move forwards and right.
+        :param delay: int Number of seconds to wait after completion. Defaults to 1.
+        :param save_cmd: Boolean for whether command should be saved to timeseries.
+        :return: None
+        """
+        self.send_command(b'd', delay=delay, save_cmd=save_cmd)
+        self.state = "forward right"
+
     def turn_hard_right(self, delay=1, save_cmd=True):
         """
         Command to turn the Arduino on a hard right.
@@ -97,6 +107,16 @@ class ArduinoController:
         """
         self.send_command(b'l', delay=delay, save_cmd=save_cmd)
         self.state = "left"
+
+    def forward_left(self, delay=1, save_cmd=True):
+        """
+        Command to make the arduino move forwards and left.
+        :param delay: int Number of seconds to wait after completion. Defaults to 1.
+        :param save_cmd: Boolean for whether command should be saved to timeseries.
+        :return: None
+        """
+        self.send_command(b'a', delay=delay, save_cmd=save_cmd)
+        self.state = "forward left"
 
     def turn_hard_left(self, delay=1, save_cmd=True):
         """
