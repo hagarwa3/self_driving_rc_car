@@ -4,6 +4,10 @@ import sys, os
 
 
 def get_char_keyboard_nonblock():
+    """
+    Example of a non-blocking keypress in python from
+    http://stackoverflow.com/questions/13207678/whats-the-simplest-way-of-detecting-keyboard-input-in-python-from-the-terminal
+    """
     fd = sys.stdin.fileno()
 
     oldterm = termios.tcgetattr(fd)
