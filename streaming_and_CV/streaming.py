@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import pi_controller
-
+from sklearn.externals import joblib
 
 bot_url = "http://192.168.1.11:9876/"
 frame_idx = 0
@@ -51,6 +51,11 @@ def draw_edges(img, n_components=-1):
     cv2.drawContours(img, contours, -1, (0, 255, 0), 1)
     return contours
 
+def draw_edges_bw(img, n_components=-1):
+    contours = draw_edges(img, n_components)
+    img_bw = np.zeros(img.shape)
+    cv2.drawContours(img, contours, -1, 255, 1)
+    return img_bw
 
 def draw_direction_arrow(img, direction):
     # Draw arrow centered at (180, 75)
@@ -70,11 +75,11 @@ def navigate(img):
     global direction
     direction = get_direction_from_image(img)
 
-    if direction == 1:
+    if direction == 2:
         controller.forwards()
     elif direction == 0:
         controller.forward_left()
-    elif direction == 2:
+    elif direction == 1:
         controller.forward_right()
     elif direction == 3:
         controller.stop()
@@ -86,6 +91,15 @@ def navigate(img):
     if n_reverses == 5:
         raise Exception("time to stop")
 
+def get_direction_from_image(img):
+    img_bw = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    height, width = img_bw.shape
+    img_bw = img_bw[int(height/2):height, :]
+    img_bw = cv2.resize(img_bw, (0,0), fx=0.25, fy=0.25)
+    img_bw = draw_edges_bw(img_bw, 0.05).flatten().astype(np.float32)
+    log_model = joblib.load('logistic_regression.pkl')
+    prediction = log_model.predict([img_bw])
+    return prediction[0]
 
 def processIncoming(im_bytes, stream):
     """
